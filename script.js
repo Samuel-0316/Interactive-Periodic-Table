@@ -1581,7 +1581,8 @@ function showElementDetails(elementNumber) {
     const element = elements.find(e => e.atomicNumber === parseInt(elementNumber));
     if (!element) return;
     
-    const modal = new bootstrap.Modal(document.getElementById('elementModal'));
+    const modalElement = document.getElementById('elementModal');
+    const modal = new bootstrap.Modal(modalElement);
     
     document.querySelector('.modal-title').textContent = element.name;
     document.getElementById('atomicNumber').textContent = element.atomicNumber;
@@ -1595,6 +1596,14 @@ function showElementDetails(elementNumber) {
     document.getElementById('description').textContent = element.description;
     
     modal.show();
+
+    // Ensure backdrop cleanup on modal hide
+    modalElement.addEventListener('hidden.bs.modal', () => {
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+    });
 }
 
 // Event listeners
@@ -1728,4 +1737,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showElementDetails(element.dataset.elementNumber);
         }
     });
+});
+
+document.addEventListener('hidden.bs.modal', function () {
+    document.body.style.paddingRight = '0px'; // Reset padding
 });
