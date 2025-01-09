@@ -1426,6 +1426,9 @@ const elements = [
 function createPeriodicTable() {
     const container = document.getElementById('periodicTable');
     
+    // Clear existing content to prevent duplication
+    container.innerHTML = '';
+    
     // Create a placeholder array for all positions
     const grid = Array(7).fill().map(() => Array(18).fill(null));
     
@@ -1434,7 +1437,10 @@ function createPeriodicTable() {
         if (!['lanthanide', 'actinide'].includes(element.category)) {
             const period = element.period - 1;
             const group = element.group - 1;
-            grid[period][group] = element;
+            // Only place element if period and group are valid
+            if (period >= 0 && period < 7 && group >= 0 && group < 18) {
+                grid[period][group] = element;
+            }
         }
     });
     
@@ -1442,6 +1448,12 @@ function createPeriodicTable() {
     grid.forEach((row, rowIndex) => {
         const rowDiv = document.createElement('div');
         rowDiv.className = 'row g-1 mb-1';
+        
+        // Add row number label (optional)
+        const rowLabel = document.createElement('div');
+        rowLabel.className = 'col-auto period-label';
+        rowLabel.textContent = (rowIndex + 1).toString();
+        rowDiv.appendChild(rowLabel);
         
         row.forEach((element, colIndex) => {
             const col = document.createElement('div');
@@ -1456,6 +1468,9 @@ function createPeriodicTable() {
                         <small class="d-block">${element.name}</small>
                     </div>
                 `;
+            } else {
+                // Add empty cell to maintain grid structure
+                col.innerHTML = '<div class="element-placeholder"></div>';
             }
             
             rowDiv.appendChild(col);
@@ -1463,14 +1478,15 @@ function createPeriodicTable() {
         
         container.appendChild(rowDiv);
     });
-    
-    // Create lanthanide and actinide series
-    createFBlock();
 }
 
 // Function to create the f-block elements display
 function createFBlock() {
     const container = document.getElementById('fBlock');
+    
+    // Clear existing content to prevent duplication
+    container.innerHTML = '';
+    
     const series = ['lanthanide', 'actinide'];
     
     series.forEach(seriesName => {
@@ -1487,34 +1503,78 @@ function createFBlock() {
         `;
         rowDiv.appendChild(labelCol);
         
-        // Filter and sort elements by atomic number
-        const seriesElements = elements
+        // Add spacing to align with main table
+        for (let i = 0; i < 3; i++) {
+            const spacerCol = document.createElement('div');
+            spacerCol.className = 'col';
+            rowDiv.appendChild(spacerCol);
+        }
+        
+        // Filter and add elements
+        elements
             .filter(element => element.category === seriesName)
-            .sort((a, b) => a.atomicNumber - b.atomicNumber);
-        
-        // Add placeholder column for alignment with main table
-        const placeholderCol = document.createElement('div');
-        placeholderCol.className = 'col';
-        rowDiv.appendChild(placeholderCol);
-        
-        // Add elements
-        seriesElements.forEach(element => {
-            const col = document.createElement('div');
-            col.className = 'col';
-            col.innerHTML = `
-                <div class="element ${element.category} p-1 rounded text-center" 
-                     data-element-number="${element.atomicNumber}">
-                    <small class="d-block">${element.atomicNumber}</small>
-                    <strong>${element.symbol}</strong>
-                    <small class="d-block">${element.name}</small>
-                </div>
-            `;
-            rowDiv.appendChild(col);
-        });
+            .sort((a, b) => a.atomicNumber - b.atomicNumber)
+            .forEach(element => {
+                const col = document.createElement('div');
+                col.className = 'col';
+                col.innerHTML = `
+                    <div class="element ${element.category} p-1 rounded text-center" 
+                         data-element-number="${element.atomicNumber}">
+                        <small class="d-block">${element.atomicNumber}</small>
+                        <strong>${element.symbol}</strong>
+                        <small class="d-block">${element.name}</small>
+                    </div>
+                `;
+                rowDiv.appendChild(col);
+            });
         
         container.appendChild(rowDiv);
     });
 }
+
+// Modify the initialization to ensure it only runs once
+let isTableInitialized = false;
+
+function initializePeriodicTable() {
+    if (!isTableInitialized) {
+        createPeriodicTable();
+        createFBlock();
+        isTableInitialized = true;
+    }
+}
+
+// Update the DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', () => {
+    initializePeriodicTable();
+    populateElementsList();
+    setupSearchAutocomplete();
+    
+    // Add click event listener for element details
+    document.addEventListener('click', (e) => {
+        const element = e.target.closest('.element');
+        if (element) {
+            showElementDetails(element.dataset.elementNumber);
+        }
+    });
+});
+
+// Add some CSS to style the empty cells and period labels
+const style = document.createElement('style');
+style.textContent = `
+    .element-placeholder {
+        height: 80px;
+        visibility: hidden;
+    }
+    .period-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        width: 30px;
+    }
+`;
+document.head.appendChild(style);
+
 
 // Function to show element details in modal
 function showElementDetails(elementNumber) {
@@ -1566,3 +1626,106 @@ function getCategoryColor(category) {
     };
     return colors[category] || '#CCCCCC';
 }
+
+
+
+
+// Function to populate the datalist with element names
+function populateElementsList() {
+    const datalist = document.getElementById('elementsList');
+    elements.forEach(element => {
+        const option = document.createElement('option');
+        option.value = element.name;
+        datalist.appendChild(option);
+        
+        // Add symbol as another option
+        const symbolOption = document.createElement('option');
+        symbolOption.value = element.symbol;
+        datalist.appendChild(symbolOption);
+    });
+}
+
+// Function to handle the search
+function handleSearch(event) {
+    event.preventDefault();
+    const searchInput = document.getElementById('elementSearchInput');
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    
+    // Find element by name or symbol
+    const element = elements.find(elem => 
+        elem.name.toLowerCase() === searchTerm || 
+        elem.symbol.toLowerCase() === searchTerm
+    );
+    
+    if (element) {
+        // Show the modal with the element details
+        showElementDetails(element.atomicNumber);
+        // Clear the search input
+        searchInput.value = '';
+    } else {
+        // Show alert if element not found
+        const alertHTML = `
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                Element "${searchInput.value}" not found. Please try again.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        const alertContainer = document.createElement('div');
+        alertContainer.className = 'container mt-3';
+        alertContainer.innerHTML = alertHTML;
+        
+        // Insert alert after the navbar
+        const navbar = document.querySelector('nav');
+        navbar.parentNode.insertBefore(alertContainer, navbar.nextSibling);
+        
+        // Clear the search input
+        searchInput.value = '';
+        
+        // Remove the alert after 3 seconds
+        setTimeout(() => {
+            alertContainer.remove();
+        }, 3000);
+    }
+}
+
+// Add event listener for input changes to provide real-time suggestions
+function setupSearchAutocomplete() {
+    const searchInput = document.getElementById('elementSearchInput');
+    searchInput.addEventListener('input', (e) => {
+        const value = e.target.value.toLowerCase();
+        
+        // Filter elements based on input
+        const suggestions = elements.filter(elem => 
+            elem.name.toLowerCase().includes(value) || 
+            elem.symbol.toLowerCase().includes(value)
+        );
+        
+        // Update datalist
+        const datalist = document.getElementById('elementsList');
+        datalist.innerHTML = '';
+        suggestions.forEach(element => {
+            const option = document.createElement('option');
+            option.value = element.name;
+            datalist.appendChild(option);
+            
+            const symbolOption = document.createElement('option');
+            symbolOption.value = element.symbol;
+            datalist.appendChild(symbolOption);
+        });
+    });
+}
+
+// Modify the DOMContentLoaded event listener to include new initializations
+document.addEventListener('DOMContentLoaded', () => {
+    createPeriodicTable();
+    populateElementsList();
+    setupSearchAutocomplete();
+    
+    // Add click event listener for element details
+    document.addEventListener('click', (e) => {
+        const element = e.target.closest('.element');
+        if (element) {
+            showElementDetails(element.dataset.elementNumber);
+        }
+    });
+});
