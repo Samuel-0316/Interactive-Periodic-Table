@@ -1,0 +1,50 @@
+trigger:
+- main
+
+pool:
+  name: Samuel
+  demands:
+    - Agent.Name -equals sam
+
+variables:
+  dockerHubConnection: 'docker'
+  imageName: 'samuel2004/periodic_table'
+
+steps:
+  - checkout: self
+
+  - task: SonarQubePrepare@7
+    inputs:
+      SonarQube: 'sonar'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: 'Periodic-Table'
+      cliProjectName: 'Periodic-Table'
+    displayName: 'Prepare SonarQube Analysis'
+
+
+  - task: SonarQubeAnalyze@7
+    displayName: 'Run SonarQube Analysis'
+
+
+  - task: SonarQubePublish@7
+    inputs:
+      pollingTimeoutSec: '300'
+    displayName: 'Publish SonarQube Results'
+  
+  - task: dependency-check-build-task@6
+    inputs:
+      projectName: 'Periodic-Table'
+      scanPath: '$(System.DefaultWorkingDirectory)'
+      format: 'HTML'  # Other options: HTML, XML, JSON, CSV, ALL
+    displayName: 'Run OWASP Dependency-Check'
+  
+  - task: Docker@2
+    displayName: 'Build Docker image'
+    inputs:
+      containerRegistry: $(dockerHubConnection)
+      repository: $(imageName)
+      command: buildAndPush
+      Dockerfile: '**/Dockerfile'
+      tags: |
+        latest
