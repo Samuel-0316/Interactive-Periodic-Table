@@ -13,25 +13,14 @@ variables:
 steps:
   - checkout: self
 
-  - task: SonarQubePrepare@7
-    inputs:
-      SonarQube: 'azure_sonar'
-      scannerMode: 'CLI'
-      configMode: 'manual'
-      cliProjectKey: 'Periodic-Table'
-      cliProjectName: 'Periodic-Table'
-      extraProperties: |
-        sonar.scm.disabled=true
-        sonar.branch.name=
-    displayName: 'Prepare SonarQube Analysis'
-
-  - task: SonarQubeAnalyze@7
-    displayName: 'Run SonarQube Analysis'
-
-  - task: SonarQubePublish@7
-    inputs:
-      pollingTimeoutSec: '300'
-    displayName: 'Publish SonarQube Results'
+  - script: |
+      sonar-scanner \
+        -Dsonar.projectKey=Periodic-Table \
+        -Dsonar.sources=. \
+        -Dsonar.host.url=http://localhost:9000/ \
+        -Dsonar.login=squ_01ae9a90f8ff5220f516aaa4bb5beefe1337e238 \
+        -Dsonar.scm.disabled=true
+    displayName: "Run SonarQube CLI Analysis"
   
   - task: dependency-check-build-task@6
     inputs:
