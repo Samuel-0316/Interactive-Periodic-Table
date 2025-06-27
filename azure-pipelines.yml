@@ -9,19 +9,20 @@ pool:
 variables:
   dockerHubConnection: 'docker'
   imageName: 'samuel2004/periodic_table'
+  SONAR_TOKEN: 'squ_01ae9a90f8ff5220f516aaa4bb5beefe1337e238'
 
 steps:
   - checkout: self
 
   - script: |
-      docker run --rm \
-        -v "$(System.DefaultWorkingDirectory):/usr/src" \
-        sonarsource/sonar-scanner-cli:5 \
-        -Dsonar.projectKey=Periodic-Table \
-        -Dsonar.sources=/usr/src \
-        -Dsonar.host.url=http://host.docker.internal:9000 \
-        -Dsonar.login=squ_01ae9a90f8ff5220f516aaa4bb5beefe1337e238 \
-        -Dsonar.scm.disabled=true \
+      docker run --rm ^
+        -v "$(System.DefaultWorkingDirectory):/usr/src" ^
+        sonarsource/sonar-scanner-cli:5 ^
+        -Dsonar.projectKey=Periodic-Table ^
+        -Dsonar.sources=/usr/src ^
+        -Dsonar.host.url=http://host.docker.internal:9000 ^
+        -Dsonar.login=$(SONAR_TOKEN) ^
+        -Dsonar.scm.disabled=true ^
         -Dsonar.branch.name=
     displayName: 'Run SonarScanner in Docker Step'
   
