@@ -14,13 +14,16 @@ steps:
   - checkout: self
 
   - script: |
-      sonar-scanner \
+      docker run --rm \
+        -v "$(System.DefaultWorkingDirectory):/usr/src" \
+        sonarsource/sonar-scanner-cli:5 \
         -Dsonar.projectKey=Periodic-Table \
-        -Dsonar.sources=. \
-        -Dsonar.host.url=http://localhost:9000/ \
+        -Dsonar.sources=/usr/src \
+        -Dsonar.host.url=http://host.docker.internal:9000 \
         -Dsonar.login=squ_01ae9a90f8ff5220f516aaa4bb5beefe1337e238 \
-        -Dsonar.scm.disabled=true
-    displayName: "Run SonarQube CLI Analysis"
+        -Dsonar.scm.disabled=true \
+        -Dsonar.branch.name=
+    displayName: 'Run SonarScanner in Docker Step'
   
   - task: dependency-check-build-task@6
     inputs:
