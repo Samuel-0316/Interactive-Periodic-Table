@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Interactive Periodic Table</title>
+    <link rel="icon" href="Interactive Periodic Table learning app logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'Roboto Slab', serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a237e 0%, #283593 100%);
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(26, 35, 126, 0.9), rgba(40, 53, 147, 0.9)),
+                        url('Interactive Periodic Table learning app logo.png') center/cover;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #1a237e;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section {
+            background: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .testimonial-section {
+            background: #f8fafc;
+            padding: 80px 0;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            background: linear-gradient(90deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .btn-primary {
+            background: #1a237e;
+            border-color: #1a237e;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #283593;
+            border-color: #283593;
+            transform: translateY(-2px);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="Interactive Periodic Table learning app logo.png" alt="Logo" height="40" class="d-inline-block align-text-top me-2">
+                Periodic Table
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Interactive Table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="compiled-by.html">Pioneers</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 mb-4">Discover the Elements of Life</h1>
+            <p class="lead mb-4">An interactive journey through the periodic table designed for students, educators, and chemistry enthusiasts</p>
+            <a href="index.html" class="btn btn-light btn-lg">Explore Now</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Why Choose Our Interactive Periodic Table?</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-atom feature-icon"></i>
+                        <h3>Interactive Learning</h3>
+                        <p>Engage with elements through our interactive interface. Click, explore, and learn about each element's unique properties and characteristics.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-graduation-cap feature-icon"></i>
+                        <h3>Educational Resource</h3>
+                        <p>Perfect for students and teachers. Access comprehensive information about elements, their properties, and their real-world applications.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-mobile-alt feature-icon"></i>
+                        <h3>Mobile Friendly</h3>
+                        <p>Access the periodic table anywhere, anytime. Our responsive design ensures a seamless experience across all devices.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="testimonial-section">
+        <div class="container">
+            <h2 class="text-center mb-5">How People Use Our Platform</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <h4>Students</h4>
+                        <p>• Study element properties and relationships</p>
+                        <p>• Prepare for chemistry exams</p>
+                        <p>• Complete homework assignments</p>
+                        <p>• Understand chemical reactions</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <h4>Teachers</h4>
+                        <p>• Create engaging lesson plans</p>
+                        <p>• Demonstrate chemical concepts</p>
+                        <p>• Provide visual learning aids</p>
+                        <p>• Support remote learning</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <h4>Professionals</h4>
+                        <p>• Quick reference tool</p>
+                        <p>• Research element properties</p>
+                        <p>• Verify chemical information</p>
+                        <p>• Educational presentations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="mb-4">Ready to Start Your Chemical Journey?</h2>
+            <p class="mb-4">Join thousands of users who are already exploring the fascinating world of chemical elements.</p>
+            <a href="index.html" class="btn btn-primary btn-lg">Start Exploring</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h5>About Us</h5>
+                    <p>An interactive educational tool designed to make learning chemistry fun and engaging.</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h5>Connect With Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="https://github.com/Samuel-0316/Interactive-Periodic-Table.git" class="text-white"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="https://www.linkedin.com/in/samuel-srujan-b-871955251?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bz6ogdS6kSZSkIeOfR9su1Q%3D%3D" class="text-white"><i class="fab fa-linkedin fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">&copy; 2025 Interactive Periodic Table. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
