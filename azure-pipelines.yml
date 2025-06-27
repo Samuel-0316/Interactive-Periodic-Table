@@ -18,6 +18,9 @@ steps:
       Get-ChildItem "$env:AGENT_TEMPDIRECTORY" -Recurse | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
     displayName: 'Clean up agent temp directory'
 
+  - script: docker system prune -af --volumes
+    displayName: 'Clean Docker cache before build'
+
   - script: |
       docker run --rm ^
         -v "$(System.DefaultWorkingDirectory):/usr/src" ^
