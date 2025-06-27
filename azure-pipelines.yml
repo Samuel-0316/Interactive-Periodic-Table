@@ -9,28 +9,26 @@ pool:
 variables:
   dockerHubConnection: 'docker'
   imageName: 'samuel2004/periodic_table'
+  SONAR_TOKEN: 'squ_01ae9a90f8ff5220f516aaa4bb5beefe1337e238'
 
 steps:
   - checkout: self
 
-  - task: SonarQubePrepare@7
-    inputs:
-      SonarQube: 'sonar'
-      scannerMode: 'CLI'
-      configMode: 'manual'
-      cliProjectKey: 'Periodic-Table'
-      cliProjectName: 'Periodic-Table'
-    displayName: 'Prepare SonarQube Analysis'
+  - powershell: |
+      Get-ChildItem "$env:AGENT_TEMPDIRECTORY" -Recurse | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+    displayName: 'Clean up agent temp directory'
 
-
-  - task: SonarQubeAnalyze@7
-    displayName: 'Run SonarQube Analysis'
-
-
-  - task: SonarQubePublish@7
-    inputs:
-      pollingTimeoutSec: '300'
-    displayName: 'Publish SonarQube Results'
+  - script: |
+      docker run --rm ^
+        -v "$(System.DefaultWorkingDirectory):/usr/src" ^
+        sonarsource/sonar-scanner-cli:5 ^
+        -Dsonar.projectKey=Periodic-Table ^
+        -Dsonar.sources=/usr/src ^
+        -Dsonar.host.url=http://host.docker.internal:9000 ^
+        -Dsonar.login=$(SONAR_TOKEN) ^
+        -Dsonar.scm.disabled=true ^
+        -Dsonar.branch.name=
+    displayName: 'Run SonarScanner in Docker Step'
   
   - task: dependency-check-build-task@6
     inputs:
@@ -48,3 +46,8 @@ steps:
       Dockerfile: '**/Dockerfile'
       tags: |
         latest
+
+  - script: |
+      curl -i -X POST https://api.render.com/deploy/https://api.render.com/deploy/srv-d1a01iili9vc73ake5gg?key=W8qOTD48rpk
+    displayName: 'Trigger Render Deployment (Safe & Logged)'
+    condition: succeeded()
