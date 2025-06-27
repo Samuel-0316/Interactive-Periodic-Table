@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pioneers - Interactive Periodic Table</title>
+    <link rel="icon" href="Interactive Periodic Table learning app logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'Roboto Slab', serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1 0 auto;
+        }
+        .navbar {
+            background: linear-gradient(90deg, #1a237e 0%, #283593 100%);
+        }
+        .footer {
+            background: linear-gradient(90deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+        .compiled-section {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(40,53,147,0.08);
+            padding: 2rem 2.5rem;
+            margin-top: 2rem;
+        }
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+        }
+        .contributor-card {
+            border-left: 6px solid #283593;
+            background: #f4f6fb;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(40,53,147,0.04);
+        }
+        .contributor-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1a237e;
+        }
+        .contributor-year {
+            font-size: 1rem;
+            color: #5c6bc0;
+        }
+        .btn-back {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="Interactive Periodic Table learning app logo.png" alt="Logo" height="40" class="d-inline-block align-text-top me-2">
+                Periodic Table
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Pioneers</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <div class="container compiled-section">
+            <h1 class="mb-4">Pioneers of the Periodic Table</h1>
+            <div class="contributor-card">
+                <div class="contributor-name">Johann Wolfgang Döbereiner</div>
+                <div class="contributor-year">1829</div>
+                <div class="contributor-desc">Proposed the concept of triads — groups of three elements with similar properties and atomic weights.</div>
+            </div>
+            <div class="contributor-card">
+                <div class="contributor-name">Alexandre-Emile Béguyer de Chancourtois</div>
+                <div class="contributor-year">1862</div>
+                <div class="contributor-desc">Created the first geometrical representation of the periodicity of elements using a helical graph (Telluric Helix).</div>
+            </div>
+            <div class="contributor-card">
+                <div class="contributor-name">John Newlands</div>
+                <div class="contributor-year">1864</div>
+                <div class="contributor-desc">Proposed the Law of Octaves — elements show similar properties every eight elements when arranged by increasing atomic mass.</div>
+            </div>
+            <div class="contributor-card">
+                <div class="contributor-name">Lothar Meyer</div>
+                <div class="contributor-year">1869</div>
+                <div class="contributor-desc">Independently developed a periodic table showing periodic trends, but published after Mendeleev.</div>
+            </div>
+            <div class="contributor-card">
+                <div class="contributor-name">Dmitri Mendeleev</div>
+                <div class="contributor-year">1869</div>
+                <div class="contributor-desc">Created the first widely accepted periodic table. Arranged elements by atomic mass and predicted properties of undiscovered elements.</div>
+            </div>
+            <div class="contributor-card">
+                <div class="contributor-name">Henry Moseley</div>
+                <div class="contributor-year">1913</div>
+                <div class="contributor-desc">Rearranged the periodic table by atomic number instead of atomic mass, resolving inconsistencies in Mendeleev's table.</div>
+            </div>
+            <div class="contributor-card">
+                <div class="contributor-name">Glenn T. Seaborg</div>
+                <div class="contributor-year">1940</div>
+                <div class="contributor-desc">Discovered transuranium elements and proposed the actinide series, reshaping the bottom part of the periodic table.</div>
+            </div>
+            <a href="index.html" class="btn btn-primary btn-back"><i class="fas fa-arrow-left me-2"></i>Back to Home</a>
+        </div>
+    </main>
+    <footer class="footer mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h5>About Us</h5>
+                    <p>An interactive educational tool designed to make learning chemistry fun and engaging.</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h5>Connect With Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="https://github.com/Samuel-0316/Interactive-Periodic-Table.git" class="text-white"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="https://www.linkedin.com/in/samuel-srujan-b-871955251?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bz6ogdS6kSZSkIeOfR9su1Q%3D%3D" class="text-white"><i class="fab fa-linkedin fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">&copy; 2025 Interactive Periodic Table. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
