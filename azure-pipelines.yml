@@ -15,17 +15,15 @@ steps:
 
   - task: SonarQubePrepare@7
     inputs:
-      SonarQube: 'sonar'
+      SonarQube: 'azure_sonar'
       scannerMode: 'CLI'
       configMode: 'manual'
       cliProjectKey: 'Periodic-Table'
       cliProjectName: 'Periodic-Table'
     displayName: 'Prepare SonarQube Analysis'
 
-
   - task: SonarQubeAnalyze@7
     displayName: 'Run SonarQube Analysis'
-
 
   - task: SonarQubePublish@7
     inputs:
@@ -48,3 +46,8 @@ steps:
       Dockerfile: '**/Dockerfile'
       tags: |
         latest
+
+  - script: |
+      curl -i -X POST https://api.render.com/deploy/https://api.render.com/deploy/srv-d1a01iili9vc73ake5gg?key=W8qOTD48rpk
+    displayName: 'Trigger Render Deployment (Safe & Logged)'
+    condition: succeeded()
