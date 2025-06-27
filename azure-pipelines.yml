@@ -20,6 +20,8 @@ steps:
       configMode: 'manual'
       cliProjectKey: 'Periodic-Table'
       cliProjectName: 'Periodic-Table'
+      extraProperties: |
+        sonar.branch.name=
     displayName: 'Prepare SonarQube Analysis'
 
   - task: SonarQubeAnalyze@7
