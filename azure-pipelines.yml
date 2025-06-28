@@ -49,8 +49,36 @@ steps:
       Dockerfile: '**/Dockerfile'
       tags: |
         latest
+  
+  - task: SnykSecurityScan@1
+    inputs:
+      serviceConnectionEndpoint: 'snyk_image_scan'
+      testType: 'container'
+      dockerImageName: 'samuel2004/periodic_table:latest'
 
   - script: |
       curl -i -X POST https://api.render.com/deploy/srv-d1fjg02li9vc739k3m10?key=JY1YE4U-qhE
     displayName: 'Trigger Render Deployment (Safe & Logged)'
     condition: succeeded()
+
+  - task: PowerShell@2
+    displayName: 'Run HTML Validation'
+    inputs:
+      targetType: 'inline'
+      script: |
+        Write-Host "Validating HTML via W3C Validator..."
+        Invoke-WebRequest -UseBasicParsing `
+          -Uri "https://validator.w3.org/nu/?doc=https://interactive-periodic-table-nsjh.onrender.com&out=json" `
+          -Method Get `
+          -OutFile "validation.json"
+
+        $json = Get-Content "validation.json" | ConvertFrom-Json
+        $errors = $json.messages | Where-Object { $_.type -eq 'error' }
+
+        if ($errors.Count -gt 0) {
+          Write-Host "❌ Found HTML validation errors:"
+          $errors | ForEach-Object { Write-Host ($_ | ConvertTo-Json -Depth 3) }
+          exit 1
+        } else {
+          Write-Host "✅ HTML is valid!"
+        }
