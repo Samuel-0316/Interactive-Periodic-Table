@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Periodic Table</title>
+    <link rel="icon" href="Interactive Periodic Table learning app logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+
+        body{
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'Roboto Slab', serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        main {
+            flex: 1 0 auto;
+        }
+
+        .element {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 80px;
+        }
+        .element:hover {
+            transform: scale(1.1);
+            z-index: 1000;
+        }
+        .modal.fade .modal-dialog {
+            transition: transform .3s ease-out;
+        }
+        .nonmetal { background-color: #A8D08D; }
+        .noble-gas { background-color: #C7A0E4; }
+        .alkali-metal { background-color: #FF9999; }
+        .alkaline-earth { background-color: #FFB366; }
+        .metalloid { background-color: #80CC99; }
+        .halogen { background-color: #99CCFF; }
+        .metal { background-color: #99CCCC; }
+        .transition-metal { background-color: #FFB3B3; }
+        .lanthanide { background-color: #FFCCFF; }
+        .actinide { background-color: #FF99CC; }
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .series-label {
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            text-align: center;
+            padding: 10px;
+            height: 80px;
+        }
+        .img-fluid{
+            justify-content: center;
+            border-radius: 25px;
+        }
+
+        h1{
+            font-family: 'Playfair Display', serif;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a237e 0%, #283593 100%);
+        }
+
+        .footer {
+            background: linear-gradient(90deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .feature-card {
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .search-bar {
+            max-width: 500px;
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="Interactive Periodic Table learning app logo.png" alt="Logo" height="40" class="d-inline-block align-text-top me-2">
+                Periodic Table
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <form class="d-flex search-bar ms-auto" id="elementSearchForm" onsubmit="handleSearch(event)">
+                    <input class="form-control me-2" type="search" placeholder="Search elements..." aria-label="Search" id="elementSearchInput" list="elementsList">
+                    <datalist id="elementsList">
+                        <!-- Will be populated dynamically -->
+                    </datalist>
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="compiled-by.html">Pioneers</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Welcome Alert -->
+        <div class="container mt-4">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Welcome to the Interactive Periodic Table!</strong> Click on any element to learn more about it.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <!-- <img src="Interactive Periodic Table learning app logo.png" class="img-fluid mx-auto d-block" width="200" height="200" alt="Periodic Table Logo"> -->
+                    </div>
+                </div>
+            </div>    
+            <h1 class="text-center mb-4">Interactive Periodic Table</h1>
+            
+            <!-- Legend -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-auto">
+                    <div class="d-flex flex-wrap gap-3">
+                        <div><span class="legend-box nonmetal"></span>Nonmetal</div>
+                        <div><span class="legend-box noble-gas"></span>Noble Gas</div>
+                        <div><span class="legend-box alkali-metal"></span>Alkali Metal</div>
+                        <div><span class="legend-box alkaline-earth"></span>Alkaline Earth</div>
+                        <div><span class="legend-box metalloid"></span>Metalloid</div>
+                        <div><span class="legend-box halogen"></span>Halogen</div>
+                        <div><span class="legend-box metal"></span>Metal</div>
+                        <div><span class="legend-box transition-metal"></span>Transition Metal</div>
+                        <div><span class="legend-box lanthanide"></span>Lanthanide</div>
+                        <div><span class="legend-box actinide"></span>Actinide</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Cards
+            <div class="container mb-4">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card feature-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-atom fa-3x mb-3 text-primary"></i>
+                                <h5 class="card-title">Interactive Learning</h5>
+                                <p class="card-text">Explore elements through our interactive interface with detailed information and visual aids.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card feature-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-graduation-cap fa-3x mb-3 text-primary"></i>
+                                <h5 class="card-title">Educational Resources</h5>
+                                <p class="card-text">Access comprehensive educational materials about chemical elements and their properties.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card feature-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-flask fa-3x mb-3 text-primary"></i>
+                                <h5 class="card-title">Chemical Properties</h5>
+                                <p class="card-text">Discover detailed information about chemical properties and characteristics of elements.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Main Periodic Table Grid -->
+            <div class="row" id="periodicTable"></div>
+            
+            <!-- Spacing -->
+            <div class="my-4"></div>
+            
+            <!-- Lanthanides and Actinides -->
+            <div id="fBlock">
+                <!-- Series will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h5>About Us</h5>
+                    <p>An interactive educational tool designed to make learning chemistry fun and engaging.</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h5>Connect With Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="https://github.com/Samuel-0316/Interactive-Periodic-Table.git" class="text-white"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="https://www.linkedin.com/in/samuel-srujan-b-871955251?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bz6ogdS6kSZSkIeOfR9su1Q%3D%3D" class="text-white"><i class="fab fa-linkedin fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">&copy; 2025 Interactive Periodic Table. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Element Modal -->
+    <div class="modal fade" id="elementModal" tabindex="-1" aria-labelledby="elementModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-gt">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="elementModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <p><strong>Atomic Number:</strong> <span id="atomicNumber"></span></p>
+                            <p><strong>Symbol:</strong> <span id="symbol"></span></p>
+                            <p><strong>Atomic Mass:</strong> <span id="atomicMass"></span></p>
+                            <p><strong>Category:</strong> <span id="category"></span></p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Block:</strong> <span id="block"></span></p>
+                            <p><strong>Period:</strong> <span id="period"></span></p>
+                            <p><strong>Group:</strong> <span id="group"></span></p>
+                            <p><strong>State:</strong> <span id="state"></span></p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p><strong>Description:</strong></p>
+                        <p id="description"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
