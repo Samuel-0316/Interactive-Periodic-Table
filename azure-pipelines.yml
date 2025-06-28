@@ -68,7 +68,7 @@ steps:
       script: |
         Write-Host "Validating HTML via W3C Validator..."
         Invoke-WebRequest -UseBasicParsing `
-          -Uri "https://validator.w3.org/nu/?doc=https://interactive-periodic-table-nsjh.onrender.com&out=json" `
+          -Uri "https://validator.w3.org/nu/?doc=https://periodic-table-gvz2.onrender.com&out=json" `
           -Method Get `
           -OutFile "validation.json"
 
