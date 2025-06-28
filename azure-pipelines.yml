@@ -61,6 +61,11 @@ steps:
     displayName: 'Trigger Render Deployment (Safe & Logged)'
     condition: succeeded()
 
+  - powershell: |
+      Write-Host "Waiting 30 seconds for Render deployment to complete..."
+      Start-Sleep -Seconds 30
+    displayName: 'Wait for Render Deployment (30s)'
+
   - task: PowerShell@2
     displayName: 'Run HTML Validation'
     inputs:
