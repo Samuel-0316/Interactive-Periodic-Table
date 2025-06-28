@@ -51,6 +51,6 @@ steps:
         latest
 
   - script: |
-      curl -i -X POST https://api.render.com/deploy/srv-d1fjg02li9vc739k3m10?key=JY1YE4U-qhE
+      curl -i -X POST https://api.render.com/deploy/srv-d1a01iili9vc73ake5gg?key=W8qOTD48rpk
     displayName: 'Trigger Render Deployment (Safe & Logged)'
     condition: succeeded()
